@@ -1,9 +1,9 @@
 import keyboard
 import win32clipboard as winclip
 import time
+from collections import deque
 
-
-clipboard = []
+clipboard = deque(maxlen=10)
 def add_to_clipboard():
     time.sleep(0.1)
     winclip.OpenClipboard()
