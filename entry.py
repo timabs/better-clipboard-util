@@ -1,5 +1,3 @@
-import tkinter as tk
-from tkinter import ttk
 import clipboard as cb
 import keyboard as kb
 
