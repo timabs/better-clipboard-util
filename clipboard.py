@@ -4,24 +4,36 @@ import time
 from collections import deque
 
 #store in a .txt or something
-ClipboardContainer = deque(maxlen=9)
-def add_to_clipboard():
-    time.sleep(0.1)
-    winclip.OpenClipboard()
-    try:
-        entry =  winclip.GetClipboardData()
-        ClipboardContainer.append(entry)
-    except Exception as e:
-        print("error reading clipboard:",e)
-    finally:
-        winclip.CloseClipboard()
+
+class ClipboardContainer():
+    def __init__(self):
+        self.entries=deque(maxlen=9)
+        self.callbacks=[]
+    def add_to_clipboard(self):
+        time.sleep(0.1)
+        winclip.OpenClipboard()
+        try:
+            entry =  winclip.GetClipboardData()
+            print(entry)
+            self.entries.append(entry)
+            self.notify_observers()
+        except Exception as e:
+            print("error reading clipboard:",e)
+        finally:
+            winclip.CloseClipboard()
+    def notify_observers(self):
+        for callback in self.callbacks:
+            callback()
+    def register_callback(self, callback):
+        self.callbacks.append(callback)
 
 
 
-def init_keybinds():
+
+def init_keybinds(clipboard_container: ClipboardContainer):
     def handle_ctrl_c():
         keyboard.send('ctrl+c')
-        add_to_clipboard()
+        clipboard_container.add_to_clipboard()
     def open_clipboard():
         print("opened clipboard")
 
