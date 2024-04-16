@@ -28,14 +28,6 @@ class Keybinds:
         for i, entry in enumerate(clipboard_entries):
             self.clipboard_labels[i].config(text=f'"{entry}"')
 
-
-
-
-
-    def init_labels(self):
-        cb_length = 10
-        
-
             
 
 
