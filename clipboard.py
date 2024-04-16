@@ -7,15 +7,14 @@ from collections import deque
 
 class ClipboardContainer():
     def __init__(self):
-        self.entries=deque(maxlen=9)
+        self.entries=deque(maxlen=10)
         self.callbacks=[]
     def add_to_clipboard(self):
         time.sleep(0.1)
         winclip.OpenClipboard()
         try:
             entry =  winclip.GetClipboardData()
-            print(entry)
-            self.entries.append(entry)
+            self.entries.appendleft(entry)
             self.notify_observers()
         except Exception as e:
             print("error reading clipboard:",e)
